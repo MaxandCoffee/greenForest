@@ -1,0 +1,1531 @@
+<DOCTYPE html>
+<header>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <title>LCTfastpay Facility Invoice Form</title>
+    <meta name="description" content="An interactive getting started guide for Brackets.">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+</header> 
+<style>
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+html {
+	height: 100%;
+	background-image: url(background.PNG);
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
+}
+
+body {
+	font-family: 'Montserrat', sans-serif;
+    font-size: 2vmin;
+}
+
+h2{
+   font-size: 2.5vmin;
+}
+
+h3{
+    font-size: 1.7vmin;
+}
+
+.clear{
+    clear: both;
+}
+
+.floatLeft{
+    float: left;
+}
+
+input[type="button" i], input[type="submit" i], input[type="reset" i], input[type="file" i]::-webkit-file-upload-button, button{
+    border: none;
+}
+
+/*forms*/
+#msform {
+    text-align: center;
+	position: relative;
+    margin-left: 30%;
+}
+
+.insured{
+    padding: 1vmin;
+    box-sizing: border-box;
+}
+
+.insured > p{
+    color: #666;
+    width: 100%;
+    text-align: left;
+    font-size: .75vw;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+/*popups*/
+
+.popup{
+    display: none;
+    position: absolute;
+    background: #fff;
+    width: 50vmin;
+    left: 50%;
+    margin-left: -25vmin;
+    top: 20%;
+    padding: 3vmin;
+    -webkit-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+    -moz-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+    box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+    border-radius: 2px;
+    text-align: center;
+}
+
+#insured{
+    display: none;
+    border: 1px inset #e1e1e1;
+}
+
+.error{
+    font-size: 1.5vmin;
+    margin-left: 50%;
+}
+
+#invoiceUpload{
+    width: 60vmin;
+     left: 50%;
+    margin-left: -30vmin;
+}
+
+/*form styles*/
+
+.formWrapper{
+    position: relative;
+    width: 150vmin;
+    background: rgba(0,0,0,0.6);
+    min-height: 105%;
+    padding: 3vmin;
+    left: 50%;
+    margin-left: -75vmin;
+    margin-top: 5vh;
+    box-sizing: border-box;
+    border: none;
+    -webkit-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+    -moz-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+    box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+}
+
+#msform fieldset {
+	background: white;
+	border: 0 none;
+	border-radius: 2px;
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 100%;
+	/*stacking fieldsets above each other*/
+	position: absolute;
+    top: 0;
+}
+/*Hide all except first fieldset*/
+
+#msform fieldset:not(:first-of-type) {
+	display: none;
+}
+
+p{
+    display: block;
+    text-align: justify;
+    margin: .5vmin auto;
+}
+
+p.floatLeft{
+    display: block;
+    padding: 1.5vmin;
+}
+
+ul li{
+    list-style: none;
+}
+
+.sub-question{
+    display: none;
+}
+
+/*inputs*/
+#msform input, .input {
+	padding: 1.5vmin;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	font-family: montserrat;
+	color: #2C3E50;
+	font-size: 1.5vmin;
+}
+
+#msform input.complete {
+    -webkit-appearance:none;
+    width:2vmin;
+    height:2vmin;
+    background:white;
+    border-radius:2px;
+    border:2px solid #555;
+    padding: 0;
+    margin-left: -1vw;
+    visibility: hidden;
+}
+
+.RB{
+    background: #6E40AD;
+    background-image: url(http://www.iconsdb.com/icons/preview/white/checkmark-xxl.png);
+    background-size: 3vmin;
+    background-repeat: no-repeat;
+    background-position: 1vmin 1vmin;
+    color: #fff !important; 
+}
+
+.clicked{
+    background: #6E40AD;
+    background-image: url(http://www.iconsdb.com/icons/preview/white/checkmark-xxl.png);
+    background-size: 3vmin;
+    background-repeat: no-repeat;
+    background-position: 1vmin 1vmin;
+    color: #fff !important;
+}
+
+#servicesCharged #RBamount.clicked{
+    padding: 1.5vmin;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: 10px;
+	width: 20%;
+	box-sizing: border-box;
+	font-family: montserrat;
+	color: #2C3E50;
+	font-size: 1.5vmin;
+    background: #fff !important;
+    background-image: none !important;
+}
+
+#msform input.datepicker{
+    float: left;
+    width: 35%;
+}
+
+#roomNumCheck > .dropdown{
+    width: 100% !important;
+}
+
+#msform input.service{
+    width: 45%;
+}
+
+#msform input.service:nth-of-type(1n+1){
+    margin-left: 1.5vmin;
+}
+
+#servicesCharged{
+    margin-top: 2vmin;
+}
+
+.servicesCharged{
+    width: 100%;
+    height: 6vh;
+    padding: 1.5vmin;
+}
+
+.servicesCharged::after{
+    content: "";
+    clear: both;
+}
+
+#servicesCharged p{
+    display: block;
+    float: left;
+    width: 35%;
+    text-align: left !important;
+}
+
+#servicesCharged input.amount{
+    float: left;
+    margin: 0 0 0 2%;
+    width: 20%
+}
+
+#servicesCharged input.checkbox{
+    float: left;
+    margin: 0 0 0 2%;
+    padding: 0;
+    width: 1.5vw;
+}
+
+#sum{
+    width: 25%;
+}
+
+.adl{
+    width: 45% !important;
+    float: left;
+    border: none !important;
+}
+
+#msform .dropdown{
+    width: 45%;
+    float: left;
+    margin-left: 2%;
+}
+/*buttons*/
+#msform .action-button, .action-button {
+	width: auto;
+    min-width: 6vw;
+	border: 2px solid #0098A8;
+	font-weight: bold;
+    background: transparent;
+	color: #333;
+	border-radius: 2px;
+	cursor: pointer;
+	padding: 1.5%;
+	margin: 1.5vh 2vmin;
+    font-size: 2vmin;
+    text-transform: capitalize;
+}
+
+#msform .action-button:hover, #msform .action-button:focus, .action-button:hover, .action-button:focus  {
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #0098A8;
+    background: #0098A8;
+    color: #fff;
+}
+
+#msform .action-button:disabled{
+    background: rgba(0, 0, 0, .2);
+    border: 3px solid rgba(0, 152, 168, .3);
+    box-shadow: none;
+    cursor: default;
+}
+
+#roomNumCheck .selector-button, #roomNumCheck .input{
+    width: 100%;
+    height: 5vmin;
+    margin-top: 2vmin;
+}
+
+#roomNumCheck .input{
+    margin-left: -.2vmin;
+}
+
+#invoiceUpload .selector-button, #invoiceUpload .input{
+    width: 100%;
+    height: 5vmin;
+    margin-top: 2vmin;
+    font-size: 1.5vmin;
+    
+}
+
+.popup .selector-button{
+    width: 100%; 
+    border: none;
+    height: 5vmin;
+}
+
+.uploadinput{
+    width: 100%;
+}
+
+#upload{
+    position: relative;
+    width: 30%;
+    margin-left: 50%;
+    left: -15%
+}
+
+#fs5 #ip{
+    width: 100%;
+    border: none;
+}
+
+input#certify{
+float:left;
+width: 3vw;
+}
+
+
+#other{
+    display: none;
+    font-size: 1.7vmin;
+}
+
+/*headings*/
+.fs-title {
+	text-transform: uppercase;
+	color: #2C3E50;
+	margin-bottom: 10px;
+}
+.fs-subtitle {
+	font-weight: normal;
+	color: #666;
+	margin-bottom: 20px;
+}
+
+/*progressbar*/
+.progressbarLeft {
+	height: auto;
+    width: 20%;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+    float: left;
+    background: #fff;
+    position: fixed;
+    padding: 2vmin;
+    border-radius: 2px;
+    box-sizing: border-box;
+    
+}
+.progressbarLeft li {
+	list-style-type: none;
+	color: #333;
+	text-transform: uppercase;
+	font-size: 2vmin;
+	position: relative;
+    margin-bottom: 3vmin;
+    padding: .7vmin;
+    border-radius: 2px;
+}
+.progressbarleft li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 50px;
+	line-height: 0px;
+	font-size: 3vm;
+	color: #333;
+	margin: 0 1vmin 0 auto;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbarMobile li.active,  .progressbar li.active, .progressbar li.active::before, .progressbar li.active::after{
+	background: #FC6D58;
+	color: white;
+}
+
+#progressbarMobile{
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    color:#fff;
+    font-size: 2vmin;
+    top: -6vh;
+    top: -6vh;
+}
+
+#progressbarMobile li{
+    width: 16.66%;
+    color:#fff;
+    font-size: 2vmin;
+    float: left; 
+}
+
+/* Pie Chart */
+
+.bar_container{
+    display: none;
+}
+
+.progress-pie-chart {
+width:200px;
+height: 200px;
+border-radius: 50%;
+background-color: #E5E5E5
+position: absolute;
+top: 100px;
+left: 50%;
+margin-left: -100px;
+-webkit-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+-moz-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+}
+.progress-pie-chart.gt-50 {
+background-color: #FC6D58;
+}
+
+.ppc-progress {
+content: "";
+position: absolute;
+border-radius: 50%;
+left: calc(50% - 100px);
+top: calc(50% - 100px);
+width: 200px;
+height: 200px;
+clip: rect(0, 200px, 200px, 100px);
+}.progress-pie-chart.gt-50 {
+background-color: #FC6D58;
+}
+
+.ppc-progress {
+content: "";
+position: absolute;
+border-radius: 50%;
+left: calc(50% - 100px);
+top: calc(50% - 100px);
+width: 200px;
+height: 200px;
+clip: rect(0, 200px, 200px, 100px);
+}
+.ppc-progress .ppc-progress-fill {
+content: "";
+position: absolute;
+border-radius: 50%;
+left: calc(50% - 100px);
+top: calc(50% - 100px);
+width: 200px;
+height: 200px;
+clip: rect(0, 100px, 200px, 0);
+background: #FC6D58;
+transform: rotate(60deg);
+}
+.gt-50 .ppc-progress {
+clip: rect(0, 100px, 200px, 0px);
+}
+.gt-50 .ppc-progress .ppc-progress-fill {
+clip: rect(0, 200px, 200px, 100px);
+background: #FC6D58;
+}
+
+.ppc-percents {
+content: "";
+position: absolute;
+border-radius: 50%;
+left: calc(50% - 173.91304px/2);
+top: calc(50% - 173.91304px/2);
+width: 173.91304px;
+height: 173.91304px;
+background: #fff;
+text-align: center;
+display: table;
+}
+.ppc-percents span {
+display: block;
+font-size: 2.6em;
+font-weight: bold;
+color: #FC6D58;
+}
+
+.pcc-percents-wrapper {
+display: table-cell;
+vertical-align: middle;
+}
+
+.progress-pie-chart {
+margin: 50px auto 0;
+}
+
+/***** MEDIA STYLES *****/
+
+@media only screen and (max-width: 800px) {
+      
+    html{
+        background: #888;
+        overflow-x: hidden;
+    }
+    
+    body {
+        font-family: montserrat, arial, verdana;
+        font-size: 4vmin;
+    }
+
+    h2{
+       font-size: 4.5vmin;
+    }
+
+    h3{
+        font-size: 2.7vmin;
+    }
+    
+    #msform input,  .popup input, .input{
+        font-size: 3.7vmin;
+    }
+    
+    #msform .action-button{
+        width: 100%;
+        height: 5vh;
+        font-size: 3.7vmin; 
+        margin: 1vh auto;
+    }
+    
+    .popup{
+        width: 60vmin;
+        left: 50%;
+        margin-left: -30vmin;
+        top: 20%;
+        padding: 3vmin;
+        -webkit-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        -moz-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        border-radius: 2px;
+        text-align: center;
+    }
+    
+    .popup .action-button{
+        width: 100%;
+        height: 5vh;
+        margin: 1vh auto;
+    }
+    
+    #msform input.datepicker{
+        clear: left;
+        width: 100%;
+    }
+    
+    #roomNumCheck .input{
+        height: 6vh;
+    }
+    
+    .error{
+        font-size: 3vmin;
+        margin-left:0;
+    }
+    
+    #msform input.service{
+        width: 100%;
+    }
+    
+    .formWrapper{
+        position: relative;
+        width:100%;
+        background: rgba(0,0,0,0.6);
+        margin-top: 5vh;
+        box-sizing: border-box;
+        border: none;
+        padding: 1vmin;
+        -webkit-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        -moz-box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        box-shadow: 10px 10px 5px 100vw rgba(0,0,0,0.6);
+        box-sizing: border-box;
+    }
+    
+    #progressbar{
+        display:none;
+        color: #fff;
+    }
+
+    #progressbarMobile li{
+       font-size: 4vmin; 
+    }
+
+    #msform {
+        text-align: center;
+        position: relative;
+        background: #fff;
+        height: 100% !important;
+        width: 100% !important;
+        padding: 1%;
+        box-sizing: border-box;
+    }
+    
+    .insured p{
+        font-size: 3vw;
+    }
+    #servicesCharged{
+    margin-top: 2vmin;
+    }
+
+    .servicesCharged{
+        width: 100%;
+        height: 6vh;
+        padding: 1.5vmin;
+    }
+
+    .servicesCharged::after{
+        content: "";
+        clear: both;
+    }
+
+    #servicesCharged p{
+        width: auto;
+        margin-top: 3vmin;
+    }
+    
+    #servicesCharged p:nth-of-type(n+2){
+        float:right;
+    }
+
+    #servicesCharged input.amount{
+        width: 100%
+    }
+
+    #servicesCharged input.checkbox{
+        float: right;
+        margin: 2vh 0 0 2vw;
+        padding: 0;
+        width: 4.5vw;
+    }
+    
+    #servicesCharged #RBamount.clicked{
+        width: 100%;
+        font-size: 3.7vmin;
+        background: #fff !important;
+        background-image: none !important;
+}
+    
+    #invoiceUpload .selector-button, #invoiceUpload .input{
+        width: 100%;
+        height: 8vmin;
+        margin-top: 2vmin;
+        font-size: 3.7vmin;
+    }
+    
+    .adl{
+        width: 45% !important;
+        float: left;
+        border: none !important;
+    }
+    
+    input#certify{
+        float:left;
+        width: 6vw;
+    }
+
+}
+</style>
+
+<body> 
+
+    <div class='formWrapper'>
+        <!-- progressbar -->
+        <ul class="progressbarLeft progressbar">
+            <li class="active">Identifying Info</li>
+            <li>Insured Info</li>
+            <li>Breakdown of Charges</li>
+            <li>Amount of Charges</li>
+            <li>Insured Care Needs</li>
+            <li>Signature</li>
+
+            <div id="insured" class='insured'>
+                <p>Insured Name: Mary Smith</p> 
+                <p>Insured Policy Number: HF983723-01</p>
+                <p>Facility Name: Lovely Time Living Center </p>
+                <p>Facility ID: 437822</p>
+                <p>Service period starting*: 01/01/2016</p>
+                <p>Service period ending*:  01/31/2016</p>
+            </div>
+        </ul>
+        
+        <!-- multistep form -->
+        <form id="msform">
+            <ul id=progressbarMobile class="progressbar"> 
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+            </ul>
+            <div class="fieldsetWrapper">
+                <!-- fieldsets -->
+                <fieldset id='fs1'>
+                    <h2 class="fs-title">Identifying Information</h2>
+                    <h3 class="fs-subtitle">Step 1: Please Confirm the Information for this Invoice</h3>
+                    <p>INSTRUCTIONS: This form must be completed in its entirety and accompanied by the facility monthly invoice to ensure prompt and accurate processing of the Insured’s long term care insurance claim. It must be completed by a Facility staff member.  If you have any questions while completing this form, please call us at 844-ASSURICARE (844-277-8742) between the hours of 8AM and 6PM Monday - Friday and a customer service representative will be happy to assist you.</p>
+                    <br/>
+                    <p>Name:</p>
+                    <input type="text" value="Mary Smith" class="prePop"/>
+                    <p>Insured Policy Number:</p>
+                    <input type="text" value="HF983723-01" class="prePop"/>
+                    <p>Facility Name:</p>
+                    <input type="text" value="Lovely Time Living Center " class="prePop"/>
+                    <p>Facility ID: </p>
+                    <input type="text"  value="437822" class="prePop"/>
+                    <p>Service period starting*:</p> 
+                    <input  type="text"  value="01/01/2016" class="prePop"/>
+                    <p>Service period ending*:</p>
+                    <input type="text"  value="01/31/2016" class="prePop"/>
+                    <p>*Submit only one month of charges per form.  For multiple months, please complete multiple forms.</p>  
+                    <input type="button" name="cancel" class="cancel action-button" value="Cancel" />
+                    <input id='next1' type="button" name="next" class="next action-button" value="Next" />
+                </fieldset>
+                <fieldset id='fs2'>
+                    <h2 class="fs-title">Insured Information</h2>
+                    <h3 class="fs-subtitle">Step 2: Please Answer All of the Following Questions</h3>
+                    <div id="q1" class="question">
+                        <input type="text" class="complete floatLeft" />
+                        <p>Section of the facility the Insured resided during the service period:</p>
+                        <div class="clear"></div>
+                        <input type="button" class="selector-button" value="Independent Living" />
+                        <input type="button" class="selector-button" value="Skilled Nursing Unit" />
+                        <input id="assistLiv" type="button" class="selector-button" value="Assisted Living" />
+                        <div id="assistLivSQ" class='sub-question'>
+                            <p>Is the Insured in a separate, locked Memory Care Unit?</p>
+                            <input type="button" class="selector-button" value="Yes" />
+                            <input type="button" class="selector-button" value="No" />
+                        </div>
+                    </div>
+                    <div id='q2' class="question">
+                        <input type="text" class="complete floatLeft" />
+                        <p>Did the Insured reside in the facility for the entire service period?</p>
+                        <input type="button" class="selector-button" value="Yes" />
+                        <input id='resideEntireNo' type="button" class="selector-button" value="No" />
+                        <div id='resideEntireNoSQ' class='sub-question'>
+                            <p>The Insured was hospitalized</p> 
+                            <p class="floatLeft">from</p>
+                            <input type="date" name='date' class='datepicker'/>
+                            <p class="floatLeft">to</p>
+                            <input type="date" name='date' class='datepicker'/>
+                            <div class="clear"></div>
+
+                            <p>The Insured was away on vacation or other stay with family</p>
+                            <p class="floatLeft">from</p>
+                            <input type="date" name='date' class='datepicker'/>
+                            <p class="floatLeft">to</p>
+                            <input type="date" name='date' class='datepicker'/>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id='q3' class="question">
+                        <input type="text" class="complete floatLeft" />
+                        <p>Does the Insured continue to reside in the facility? </p>
+                        <input type="button" class="selector-button" value="Yes" />
+                        <input type="button" id='resideContinueNo' class="selector-button" value="No" />
+                        <div id='resideContinueNoSQ' class='sub-question'>
+                            <p>The Insured moved out of the facility on</p> 
+                                <input type="date" name='date' class='datepicker'/>
+                            <div class='clear'></div>
+                            <p>The Insured died on </p>
+                                <input type="date" name='date' class='datepicker'/>  
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id='q4' class="question">
+                        <input type="text" class="complete floatLeft" />
+                        <p>Room/Unit number: </p>
+                        <input type="text" id='roomNumber' class="textbox" name="roomNumber" placeholder="Room Number" />
+                    </div>
+                    
+                    <input type="button" name="previous" class="previous action-button" value="Previous" />
+                    <input type="button" id='next2' name="next" class="next action-button" value="Next" disabled/>
+                    <p id="errorHolder2" class="error" style="color: red">Please Answer All Questions</p>
+                </fieldset>
+                <fieldset id="fs3">
+                    <h2 class="fs-title">Break Down of Charges</h2>
+                    <h3 class="fs-subtitle">Step 3: This section must be completed even if the invoice breaks out some or all charges</h3>
+                    <p>Select ALL items that apply for the service period you are submitting. If a charge is included in a roll up rate for room and board, you will be able to note that on the following page.
+                        <br/>
+                        If you have any questions about completing this section, please call us at the toll free number listed above in the Instructions section of this form. 
+                    </p>
+                    <div id="services">
+                        <input type="button" class="selector-button service RB" value="Room and Board" />
+                        <input type="button" class="selector-button service" value="Charge for second occupant in room" />
+                        <input type="button" class="selector-button service" value="Nursing care services" />
+                        <input type="button" class="selector-button service" value="Personal Care services" />
+                        <input type="button" class="selector-button service" value="Resident service fee" />
+                        <input type="button" class="selector-button service" value="Facility maintenance" />
+                        <input type="button" class="selector-button service" value="Sales tax" />
+                        <input type="button" class="selector-button service" value="Incontinence supplies" />
+                        <input type="button" class="selector-button service" value="Oxygen tanks, tubing and supplies" />
+                        <input type="button" class="selector-button service" value="Insulin syringes" />
+                        <input type="button" class="selector-button service" value="Diabetic testing supplies" />
+                        <input type="button" class="selector-button service" value="Catheter supplies" />
+                        <input type="button" class="selector-button service" value="Podiatry services" />
+                        <input type="button" class="selector-button service" value="Nutritional drinks (e.g. Ensure, Boost)  " />
+                        <input type="button" class="selector-button service" value="Medication management" />
+                        <input type="button" class="selector-button service" value="Medications" />
+                        <input type="button" class="selector-button service" value="Durable medical equipment" />
+                        <input type="button" class="selector-button service" value="Physical therapy" />
+                        <input type="button" class="selector-button service" value="Occupational therapy" />
+                        <input type="button" class="selector-button service" value="Speech therapy" />
+                        <input type="button" class="selector-button service" value="Cable TV" />
+                        <input type="button" class="selector-button service" value="Laundry" />
+                        <input type="button" class="selector-button service" value="Hairdresser" />
+                        <input type="button" class="selector-button service" value="Room service meals" />
+                        <input type="button" class="selector-button service" value="Guest meals" />
+                        <input type="button" class="selector-button service" value="Transportation to medical appointments" />
+                        <input type="button" class="selector-button service" value="Transportation to shopping or recreational events" />
+                        <input type="button" class="selector-button service" value="Fees for recreational events" />
+                        <input type="button" class="selector-button service" value="Parking fee" />
+                        <input type="button" class="selector-button service" value="Deposit amount prior to move in" />
+                        <input type="button" class="selector-button service" value="Late fee(s)" />
+                        <input type="button" class="selector-button service" value="Pre-bill of charges for the next month" />
+                        <input type="button" class="selector-button service" value="Past due charge(s) from prior invoice" />
+                        <input type="button" class="selector-button service" value="Credit(s) due" />
+                        <input type="text" class="selector-button service" placeholder="Other- Please specify" />
+                    </div>
+                    <div class="clear"></div>
+                    <input type="button" name="previous" id="previous3" class="previous action-button" value="Previous" />
+                    <input type="button" id='next3' name="next" class="next action-button" value="Next" disabled/>
+                    <p id="errorHolder3" class="error" style="color: red">Please Select an Item</p>
+                </fieldset>
+                <fieldset id='fs4'>
+                    <h2 class="fs-title">Amount of Charges</h2>
+                    <h3 class="fs-subtitle">Step 4: Please Enter the Amount for Each Charge or select "Included In Room and Board"</h3>
+                    <p>This section must be completed even if the invoice breaks out some or all charges. Enter actual current service period charges for ALL items that apply for the service period you are submitting.  If a charge is included in a rolled up rate for room and board, please select that from the dropdown list. (For example, if Nursing Care Services are included in the Room and Board charge, enter the charge under Room and Board, and under Nursing Care Services, select “included in room and board” from the dropdown list.)
+                        <br/>
+                    If you have any questions about completing this section, please call us at the toll free number listed above in the Instructions section of this form. 
+                    </p>
+                    <div id='servicesCharged'>
+                        <div class="servicesCharged">
+                            <p>Room and Board:</p>
+                            <input type="number" class="amount" id="RBamount" placeholder="Amount" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <button id="getSum" class="action-button">Get Total</button>
+                    <p>Total Amount:</p>
+                    <input type="number" id='sum' class="amount" readonly />
+                    <div class="clear"></div>
+                    <input type="button" id="previous4" name="previous" class="previous action-button" value="Previous" />
+                    <input type="button" id='next4' name="next" class="next action-button" value="Next" disabled/>
+                    <p id="errorHolder4" class="error" style="color: red">Please Add Amounts for All Items and Calculate Total</p>
+                </fieldset>
+                <fieldset id='fs5'>
+                    <h2 class="fs-title">Insured Care Needs During Service Period</h2>
+                    <h3 class="fs-subtitle">Step 5: Select the Activities of Daily Living, Supervison, and Medication Needs</h3>
+                    <input type="checkbox" class="complete floatLeft"/>
+                    <p>Activities of Daily Living (ADLs) – For each ADL, select from the dropdown list whether the Insured required Hands No Assistance, Standby Assistance or Hands On Assistance to perform each activity.</p>
+                    <input type="text" class="adl " value='Bathing' readonly />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    <input type="text" class="adl" value='Dressing' readonly />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <input type="text" class="adl" value='Toileting' readonly />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <input type="text" class="adl" value='Transferring' readonly />
+                   <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <input type="text" class="adl" value='Continence' readonly />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <input type="text" class="adl" value='Eating' readonly />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <input type="text" class="adl" value='Mobility' readonly  />
+                    <p>
+                     <select class="dropdown input">
+                       <option value = "1">No Assistance</option>
+                       <option value = "2">Standby Assistance</option>
+                       <option value = "3">Hands On Assistance</option>
+                     </select>
+                    </p>
+                    
+                    
+                    <div class="clear"></div>
+                    
+                    <div id='q5'>
+                        <input type="text" class="complete floatLeft" />
+                        <p>Supervision needed due to Cognitive Impairment?</p>
+                        <input type="button" class="selector-button" value="Yes" />
+                        <input type="button" class="selector-button" value="No" />
+                    </div>    
+                    <div class="clear"></div>
+                    
+                    <div id='q6'>
+                        <input type="text" class="complete floatLeft" />
+                        <p>Medication assistance needed?</p>
+                        <input type="button" class="selector-button" value="Yes" />
+                        <input type="button" class="selector-button" value="No" />
+                    </div>
+                    <div class="clear"></div>
+
+                    <input type="button" name="previous" class="previous action-button" value="Previous" />
+                    <input type="button" id='next5' name="next" class="next action-button" value="Next" disabled />
+                    <p id="errorHolder5" class="error" style="color: red">Please Answer All Questions</p>
+                </fieldset>
+                <fieldset id='fs5'>
+                    <h2 class="fs-title">Signature and Form Submission</h2>
+                    <h3 class="fs-subtitle">Final Step: If all of the above information is correct, please read the statements below, sign and date the form and submit. </h3>
+                    <div id="fraudStatment">
+                        <p>FRAUD WARNING STATEMENT(If the Insured is a New York resident):  Any person who knowingly and with intent to defraud any insurance company or other person files an application for insurance or statement of claim containing any materially false information, or conceals for the purpose of misleading, information concerning any fact material thereto commits a fraudulent insurance act, which is a crime, and shall also be subject to civil penalty not to exceed five thousand dollars and the stated value of the claim for each violation. </p>
+                        <p>If the Insured resides in a state other than New York, or is covered by a policy issued for delivery in another state, refer to the applicable Fraud Warning Statement in the attached dropdown list. </p>
+                    </div>
+                    <br/>
+                    <input type="checkbox" id="certify"> <p>I certify that the information furnished in support of this claim is true and correct.</p>
+                     <br/>
+                    <p>Signature of Facility staff member completing this form (please type name):</p>
+                    <input type="text" name="fname" placeholder="Full Name" />
+                    <input type="date" id="finalDate" class='datepicker'/>
+                    <div class="clear"></div>
+                    <br/>
+                   
+                    <p>IP Address:</p>
+                    <input type="text" id="ip" name="IP" value="50.265.82.12" readonly/>
+                    <div class="clear"></div>
+                    <input type="button" name="previous" class="previous action-button" value="Previous" />
+                    <input type="submit" name="submit" class="submit action-button" value="Submit" disabled/>
+                    <p id="errorHolder6" class="error" style="color: red">From must be signed and dated</p>
+                </fieldset>
+            </div>
+        </form>
+    </div>
+
+    
+    <!--Step 1: Verifying Identifying Info-->
+    <div id="step1Var" class="popup">
+        <h2 class="fs-title">Verification</h2>
+        <p>By clicking "Continue" you certify that you are authorized to submit this form for the insured:</p>
+        <div class='insured'>
+            <p>Insured Name: Mary Smith</p> 
+            <p>Insured Policy Number: HF983723-01</p>
+            <p>Facility Name: Lovely Time Living Center </p>
+            <p>Facility ID: 437822</p>
+            <p>Service period starting*: 01/01/2016</p>
+            <p>Service period ending*:  01/31/2016</p>
+        </div> 
+        <div class="clear"></div>
+        <input type="button" id='continue1' name="continue" class="continue action-button" value="Continue" />
+    </div>
+    
+    <div class='popup' id="roomNumCheck">
+        <h2 class="fs-title">Verification</h2>
+        <p>This room number is different from the room number in the previous service period entry.</p>
+        <p>Please Confirm the insured moved rooms during the service period</p>
+        <p>Did the Insured move rooms/units during the service period? </p>
+        <input type="button" id='yesRoomMove' class="selector-button" value="Yes" />
+        <div id='yesRoomMoveSQ' class='sub-question' >
+            <p>Please Select a Reason for the move:</p> 
+            <p>
+             <select class="dropdown input">
+                <option value = "1">Increased level of care needs</option>
+                <option value = "2">Decreased level of care needs</option>
+                <option value = "3">Personal preference</option>
+                <option value = "4">Financial preference</option>
+                <option value = "5">Other</option>
+             </select>
+            </p>
+        </div>
+        <div class="clear"></div>
+        <input type="button" id='noRoomMove' class="selector-button" value="No" />
+        <div id='noRoomMoveSQ' class='sub-question' >
+            <p>Please Click Continue and insert the Room Number that matches the previous service period entry</p>
+        </div>
+        <div class="clear"></div>
+        <input type="button" id="continue2" name="continue" class="continue action-button" value="Continue" disabled="disabled"/>
+    </div>
+    
+     <div class="popup" id='invoiceUpload'>
+        <h2>Invoice Upload and Verification</h2>
+        <p>Were any of the charges listed paid for by or submitted to another insurer or payment source?</p>
+        <input type="button" class="selector-button" id="otherSources" value="Yes" />
+        <div id="otherSourcesSQ" class='sub-question'>
+            <p>Which insurer or payment source? </p>
+            <p>
+             <select id="insurerList" class="dropdown input">
+                <option value = "0">-Choose Insurer or Payment Source-</option>
+                <option value = "1">Other Long-term care insurance</option>
+                <option value = "2">Medicare</option>
+                <option value = "3">Medicaid</option>
+                <option value = "4">Veterans Administration</option>
+                <option value = "5">Health Insurance</option>
+                <option value = "6">Other Supplemental Insurance</option>
+                <option value = "7">Other</option>
+             </select>
+            </p>
+            <input type="text" id="other" name="other"  class="input" placeholder="Please list other payment source" />
+        </div>
+        <input type="button" class="selector-button" value="No" />
+        <div class="clear"></div>
+        <h2>Upload Invoice:</h2>
+        <p>If you are unable to upload the invoice, please mail to 410 Totten Pond Rd. Ste 350 Waltham, MA 02451, fax to 783-373-3649 or email to customerservice@ltcfastpay.com.  Please note that a claim cannot be processed until the invoice has been received and the reconciliation form completed and submitted.</p>
+        <input type="file" class="uploadinput" placeholder="Select a File to Upload" />
+        <input type="button" name="upload" id="upload" value="upload" />
+    </div>
+    
+    <div class="bar_container">
+        <div id="main_container">
+            <div id="pbar" class="progress-pie-chart" data-percent="0">
+                <div class="ppc-progress">
+                    <div class="ppc-progress-fill"></div>
+                </div>
+                <div class="ppc-percents">
+                    <div class="pcc-percents-wrapper">
+                    <span>%</span>
+                    </div>
+                </div>
+            </div>
+            <progress style="display: none" id="progress_bar" value="0" max="100"></progress>
+        </div>
+    </div>
+
+    <div id="finalConfirm" class="popup">
+        <h1 class='fs-title'>Thank You!</h1>
+        <h3>Your Facility Invoice has been submitted</h3>
+        <br/>
+        <p>Thank you for using LTCfastpay!</p>
+        <br/>
+        <p>If you have any questions about this form, please call us at 844-ASSURICARE (844-277-8742) between the hours of 8AM and 6PM Monday - Friday and a customer service representative will be happy to assist you.</p>
+         <div class="clear"></div>
+        <input type="button" name="close" id="continueLast" class="continue action-button" value="Close" />
+    </div>
+
+    
+</body> 
+<script src="http://code.jquery.com/jquery-2.0.0.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" type="text/javascript"></script>
+<script>
+  //jQuery time
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$(".next").click(function(){
+	if(animating) return false;
+	animating = true;
+	
+	current_fs = $(this).parent();
+	next_fs = $(this).parent().next();
+	
+    //scroll to top of form
+    $("html, body").animate({ scrollTop: 0 }, "300");
+    
+	//activate next step on progressbar using the index of next_fs
+	$(".progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+	
+    var x = $('#progressbarMobile li');
+    var active = $('#progressbarMobile li.active');
+    
+    $(x).eq($("fieldset").index(next_fs)).addClass("active");
+    
+	//show the next fieldset
+	next_fs.show(); 
+	//hide the current fieldset with style
+	current_fs.animate({opacity: 0}, {
+		step: function(now, mx) {
+			//as the opacity of current_fs reduces to 0 - stored in "now"
+			//1. scale current_fs down to 80%
+			scale = 1 - (1 - now) * 0.2;
+			//2. bring next_fs from the right(50%)
+			left = (now * 50)+"%";
+			//3. increase opacity of next_fs to 1 as it moves in
+			opacity = 1 - now;
+			current_fs.css({'transform': 'scale('+scale+')'});
+			next_fs.css({'left': left, 'opacity': opacity});
+		}, 
+		duration: 800, 
+		complete: function(){
+			current_fs.hide();
+			animating = false;
+		}, 
+		//this comes from the custom easing plugin
+		easing: 'easeInOutBack'
+	});
+});
+
+$(".previous").click(function(){
+	if(animating) return false;
+	animating = true;
+	
+	current_fs = $(this).parent();
+	previous_fs = $(this).parent().prev();
+    
+    //scroll to top of form
+    $(".formWrapper").animate({ scrollTop: 0 }, "300");
+	
+	//de-activate current step on progressbar
+	$(".progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+	
+	//show the previous fieldset
+	previous_fs.show(); 
+	//hide the current fieldset with style
+	current_fs.animate({opacity: 0}, {
+		step: function(now, mx) {
+			//as the opacity of current_fs reduces to 0 - stored in "now"
+			//1. scale previous_fs from 80% to 100%
+			scale = 0.8 + (1 - now) * 0.2;
+			//2. take current_fs to the right(50%) - from 0%
+			left = ((1-now) * 50)+"%";
+			//3. increase opacity of previous_fs to 1 as it moves in
+			opacity = 1 - now;
+			current_fs.css({'left': left});
+			previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+		}, 
+		duration: 800, 
+		complete: function(){
+			current_fs.hide();
+			animating = false;
+		}, 
+		//this comes from the custom easing plugin
+		easing: 'easeInOutBack'
+	});
+});
+
+$(".submit").click(function(){
+	return false;
+});
+
+$('.selector-button').click(function(){
+    $(this).toggleClass('clicked');
+});
+
+$('#servicesCharged input.amount').click(function(){
+    $(this).toggleClass('clicked');
+});
+
+
+
+$('#q1 > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    
+    $('#q1 > .complete').val('x');
+    $('#q1 > .selector-button').not(selected).slideToggle();
+});
+
+$('#assistLiv').click(function(){
+   $('#assistLivSQ').slideToggle();
+});
+
+$('#assistLivSQ > .selector-button').click(function(){
+     selected = $(this).data('clicked', true);
+    $('#assistLivSQ > .selector-button').not(selected).slideToggle();
+});
+
+$('#q2 > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    
+    $('#q2 > .complete').val('x');
+    $('#q2 > .selector-button').not(selected).slideToggle();
+});
+
+$('#resideEntireNo').click(function(){
+    $('#resideEntireNoSQ').slideToggle();
+});
+
+$('#roomNumCheck > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    $('#roomNumCheck > .selector-button').not(selected).slideToggle();
+});
+
+$('#q3 > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    
+    $('#q3 > .complete').val('x');
+    $('#q3 > .selector-button').not(selected).slideToggle();
+});
+
+$('#q5 > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    
+    $('#q5 > .complete').val('x');
+    $('#q5 > .selector-button').not(selected).slideToggle();
+});
+
+$('#q6 > .selector-button').click( function(){
+    
+     selected = $(this).data('clicked', true);
+    
+    $('#q6 > .complete').val('x');
+    $('#q6 > .selector-button').not(selected).slideToggle();
+});
+
+$('#invoiceUpload > .selector-button').click(function(){
+     selected = $(this).data('clicked', true);
+    $('#invoiceUpload > .selector-button').not(selected).slideToggle();
+});
+
+$('#roomNumCheck > .selector-button').click(function(){
+     selected = $(this).data('clicked', true);
+    
+    if(selected){
+        $('#continue2').removeAttr('disabled')
+    }else{
+        $('#continue2').attr('disabled', 'disabled');
+    }
+});
+
+$('#otherSources').click(function(){
+    $('#otherSourcesSQ').slideToggle();
+});
+
+$('#resideContinueNo').click(function(){
+    $('#resideContinueNoSQ').slideToggle();
+});
+
+$('#next1').click(function(){
+    $("#step1Var").show();
+    $('.popup-overlay').show();
+}); 
+
+$('#continue1').click(function(){
+    $("#insured").show();
+    $('.next').trigger('click');
+    $("#step1Var").hide();
+});
+
+$('.continue').click(function(){
+    $(".popup").hide();
+});
+
+(function(){
+    $('#roomNumber').blur(function(){
+        
+        roomNum = "230B"
+        
+        if($('#roomNumber').val() !== roomNum){
+            $('#roomNumCheck').show();
+            $("#yesRoomMove").show();
+            $("#noRoomMove").show();
+        }else{
+            $('#next2').removeAttr('disabled');
+             $('#errorHolder2').hide();
+        }
+        
+        $("#yesRoomMove").click(function(){
+            $("#yesRoomMoveSQ").slideToggle();
+            $('#next2').removeAttr('disabled');
+        });
+
+        $("#noRoomMove").click(function(){
+            $("#noRoomMoveSQ").slideToggle();
+            $("#previous3").trigger('click');
+            $("#roomNumber").val("230B");
+        });
+    });
+})();
+        
+(function(){
+    $('#roomNumber').keyup(function(){        
+        rmNum = $('#roomNumber').val();
+        notEmpty = true
+
+        if(rmNum == ''){
+            notEmpty = false;
+        }
+
+        if(notEmpty){
+           $('#q4 > .complete').val('x'); 
+        }else{
+            $('#q4 > .complete').val("");
+        }
+        
+        $('#roomNumber').val($(this).val().toUpperCase());
+    });
+})();
+
+(function(){
+    $('.selector-button').click(function(){
+        var empty = false;
+        $('#fs2 .complete').each(function () {
+            if ($(this).val() == '') {
+                empty = true;
+            }
+        });
+
+        if (empty) {
+            $('#next2').attr('disabled', 'disabled');
+            $('#errorHolder2').show();
+        } else {
+            $('#next2').removeAttr('disabled');
+            $('#errorHolder2').hide();
+        }
+    });
+})();
+
+(function(){
+    $('#roomNumber').keyup(function(){
+        
+        var empty = false;
+        $('#fs2 input.complete').each(function () {
+            if ($(this).val() == '') {
+                empty = true;
+            }
+        });
+
+        if (empty) {
+            $('#next2').attr('disabled', 'disabled');
+            $('#errorHolder2').show();
+            $('#q4 > .complete').val("");
+        } else {
+            $('#next2').removeAttr('disabled');
+            $('#errorHolder2').hide();
+        }
+    });
+})();
+
+(function(){
+    $('#next3').click(function(){
+        var selected = $('#services input.clicked');
+        
+        $(selected).each(function(){
+            var n = $(this).val();
+            $('#servicesCharged').append('<div class="servicesCharged">' + '<p>' + n + ':' + '</p>' + '<input type="number" class="amount" />' + '<input type="checkbox" class="checkbox"/>' + '<p>Included in R&B</p>' + '</div>');
+        });  
+    });   
+})();
+
+$('input.service').click(function(){
+    $('#next3').removeAttr('disabled');
+    $('#errorHolder3').hide();
+});
+
+$('#previous4').click(function(){
+    var selected = $('#services input.clicked');
+    $(selected).each(function(){
+        var n = null
+        $('#servicesCharged').text(n);
+    });
+});
+
+$(".totalSum").text('$' + parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+
+$('#getSum').click(function () {
+    
+    var sum = 0;
+    $('.amount').each(function() {
+        sum += Number($(this).val());
+    });
+    
+    $("#sum").val(sum);
+    return false;
+});
+
+(function () {
+    $('#getSum').click(function () {
+        notEmpty = true
+        
+        if ($('#sum').val() == '') {
+            notEmpty = false;
+        }
+
+        if (notEmpty) {
+            $('#next4').removeAttr('disabled');
+            $('#errorHolder4').hide();
+        } else {
+            $('#next4').attr('disabled', 'disabled');
+            $('#errorHolder4').show();
+        }
+
+    });
+})();
+
+$("#next4").click(function(){
+    $("#invoiceUpload").show();
+});
+
+(function(){
+    $('.selector-button').click(function(){
+        var empty = false;
+        $('#fs5 .complete').each(function () {
+            if ($(this).val() == '') {
+                empty = true;
+            }
+        });
+
+        if (empty) {
+            $('#next5').attr('disabled', 'disabled');
+            $('#errorHolder5').show();
+        } else {
+            $('#next5').removeAttr('disabled');
+            $('#errorHolder5').hide();
+        }
+    });
+})();
+
+$("#insurerList").change(function (event) {
+    var id = $(this).val();
+    
+    if ((id == '1') || (id == '6') || (id == '7')){
+        $('#other').show();
+    }else{
+        $('#other').hide();
+    }
+    
+});
+
+
+$('#upload').click(function(){
+    $("#invoiceUpload").hide();
+    $(".bar_container").show();
+    
+    var progressbar = $('#progress_bar');
+    max = progressbar.attr('max');
+    time = (1000 / max) * 5;
+    value = progressbar.val();
+
+    var loading = function() {
+    value += 1;
+    addValue = progressbar.val(value);
+
+    $('.progress-value').html(value + '%');
+    var $ppc = $('.progress-pie-chart'),
+    deg = 360 * value / 100;
+    if (value > 50) {
+    $ppc.addClass('gt-50');
+    }
+
+    $('.ppc-progress-fill').css('transform', 'rotate(' + deg + 'deg)');
+    $('.ppc-percents span').html(value + '%');
+
+    if (value == max) {
+    clearInterval(animate);
+        $(".bar_container").hide();
+        alert("Your Invoice has been Uploaded")
+    }
+    };
+
+    var animate = setInterval(function() {
+    loading();
+    }, time);
+    
+});
+
+$('#finalDate').change(function(){
+    $('.submit').removeAttr('disabled');
+    $('#errorHolder6').hide();
+})
+
+$('.submit').click(function(){
+    $('#finalConfirm').show();
+});
+
+$('#continueLast').click(function(){
+    location.reload();
+});
+
+</script>

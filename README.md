@@ -1,3 +1,3 @@
-# greenForest
+# jqueryForm
 
-http://maxandcoffee.github.io/greenForest/
+To view this mock up visit http://maxandcoffee.github.io/jqueryForm/
